@@ -134,7 +134,7 @@ with st.sidebar:
     st.title("INTELLEGENT")
     st.caption("NEXT-GEN CAMPUS ASSISTANT")
     
-    st.markdown('<div style="background:rgba(56,189,248,0.1); padding:15px; border-radius:15px; border:1px solid rgba(56,189,248,0.3); margin-bottom:20px;">', unsafe_allow_html=True)
+    st.divider()
     st.markdown("<span style='color:white; font-weight:600;'>📍 Live Status</span>", unsafe_allow_html=True)
     st.markdown(f"<h2 style='color:#38bdf8; margin:0;'>{st.session_state.current_loc}</h2>", unsafe_allow_html=True)
     if st.button("SYNC LOCATION", use_container_width=True):
@@ -142,7 +142,6 @@ with st.sidebar:
         if res["room"]: 
             st.session_state.current_loc = res["room"]
             st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
 
     st.subheader("Fast Navigation")
     all_rooms = get_all_rooms()

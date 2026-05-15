@@ -110,12 +110,21 @@ RESPONSE FORMAT (STRICT JSON):
             return self._fallback_logic(query, current_loc)
 
     def _fallback_logic(self, query: str, current_loc: str) -> Dict[str, Any]:
-        """Fuzzy matching fallback for typos and casing."""
+        """Fuzzy matching fallback with basic conversational support."""
         import difflib
-        query_low = query.lower()
+        query_low = query.lower().strip()
+        
+        # 1. Handle Greetings
+        greetings = ["hi", "hello", "hey", "hola", "greetings", "yo"]
+        if query_low in greetings:
+            return {
+                "type": "info",
+                "message": "Hello! I'm your INTELLEGENT Campus Assistant. How can I help you navigate today?"
+            }
+
         rooms = get_all_rooms()
         
-        # 1. Try fuzzy matching room names
+        # 2. Try fuzzy matching room names
         room_names = [r['name'].lower() for r in rooms]
         matches = difflib.get_close_matches(query_low, room_names, n=1, cutoff=0.4)
         

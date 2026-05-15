@@ -43,7 +43,7 @@ class CampusAgent:
             return "Campus directory unavailable."
 
     def process_query(self, query: str, current_loc: str = "MAIN_ENT") -> Dict[str, Any]:
-        """Process user query using Cerebras and RAG."""
+        """Process user query using Cerebras and RAG with typo tolerance."""
         if not self.client:
             return self._fallback_logic(query, current_loc)
 
@@ -51,7 +51,8 @@ class CampusAgent:
         
         prompt = f"""
 You are the INTELLEGENT Campus Assistant. Use the provided context to help the user navigate.
-Identify if the user wants to go to a specific location or just needs information.
+BE FLEXIBLE: Users may have typos (e.g., 'sport compl' means 'Sport Complex'). 
+Match their query to the closest location in the context.
 
 CAMPUS CONTEXT (RAG):
 {context}
@@ -61,14 +62,15 @@ USER STATE:
 - Query: {query}
 
 TASK:
-1. If navigation: Identify the exact 'CODE' of the destination.
-2. If info: Provide details about the room or facility.
+1. Identify the destination 'CODE' from the context, even if the user misspelled it.
+2. If they just want info, provide it.
+3. If you can't find a match, say so politely.
 
 RESPONSE FORMAT (STRICT JSON):
 {{
     "type": "navigation" | "info",
-    "message": "Helpful response to the user",
-    "destination_code": "CODE_OF_TARGET" (REQUIRED for navigation)
+    "message": "Helpful response here",
+    "destination_code": "CODE_OF_TARGET" (only if navigation)
 }}
 """
         try:
@@ -84,12 +86,11 @@ RESPONSE FORMAT (STRICT JSON):
                 dest = res_data["destination_code"]
                 path_data = self.graph.shortest_path(current_loc, dest)
                 if path_data:
-                    target_info = get_room(dest)
                     return {
                         "type": "navigation",
                         "message": res_data["message"],
                         "path_data": path_data,
-                        "target": target_info
+                        "target": get_room(dest)
                     }
             
             return {
@@ -102,22 +103,36 @@ RESPONSE FORMAT (STRICT JSON):
             return self._fallback_logic(query, current_loc)
 
     def _fallback_logic(self, query: str, current_loc: str) -> Dict[str, Any]:
-        """Regex-based fallback for offline mode."""
+        """Fuzzy matching fallback for typos and casing."""
+        import difflib
         query_low = query.lower()
         rooms = get_all_rooms()
         
-        for r in rooms:
-            if r['name'].lower() in query_low or r['code'].lower() in query_low:
-                path_data = self.graph.shortest_path(current_loc, r['code'])
-                if path_data:
-                    return {
-                        "type": "navigation",
-                        "message": f"Offline Mode: Found {r['name']}. Navigating now.",
-                        "path_data": path_data,
-                        "target": r
-                    }
+        # 1. Try fuzzy matching room names
+        room_names = [r['name'].lower() for r in rooms]
+        matches = difflib.get_close_matches(query_low, room_names, n=1, cutoff=0.4)
+        
+        if not matches:
+            # 2. Try simple keyword search (e.g. 'sport' in 'Sport Complex')
+            for r in rooms:
+                name_low = r['name'].lower()
+                if any(word in name_low for word in query_low.split() if len(word) > 3):
+                    matches = [name_low]
+                    break
+
+        if matches:
+            match_name = matches[0]
+            matched_room = next(r for r in rooms if r['name'].lower() == match_name)
+            path_data = self.graph.shortest_path(current_loc, matched_room['code'])
+            if path_data:
+                return {
+                    "type": "navigation",
+                    "message": f"I think you're looking for {matched_room['name']}. Navigating there now!",
+                    "path_data": path_data,
+                    "target": matched_room
+                }
         
         return {
             "type": "info",
-            "message": "I'm currently in offline mode and couldn't process that request. Please use the map or check your internet."
+            "message": "I'm having trouble finding that location. Could you try checking the spelling or use the map dropdown?"
         }

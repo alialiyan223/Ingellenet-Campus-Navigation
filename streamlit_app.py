@@ -119,12 +119,12 @@ if "initialized" not in st.session_state:
 
 # --- Sidebar ---
 with st.sidebar:
-    st.title("Intellegent")
+    st.title("INTELLEGENT")
     st.caption("NEXT-GEN CAMPUS ASSISTANT")
     
-    st.markdown('<div style="background:rgba(56,189,248,0.1); padding:15px; border-radius:15px; border:1px solid rgba(56,189,248,0.2); margin-bottom:20px;">', unsafe_allow_html=True)
-    st.write("📍 **Live Status**")
-    st.markdown(f"### {st.session_state.current_loc}")
+    st.markdown('<div style="background:rgba(56,189,248,0.1); padding:15px; border-radius:15px; border:1px solid rgba(56,189,248,0.3); margin-bottom:20px;">', unsafe_allow_html=True)
+    st.markdown("<span style='color:white; font-weight:600;'>📍 Live Status</span>", unsafe_allow_html=True)
+    st.markdown(f"<h2 style='color:#38bdf8; margin:0;'>{st.session_state.current_loc}</h2>", unsafe_allow_html=True)
     if st.button("SYNC LOCATION", use_container_width=True):
         res = st.session_state.localiser.locate()
         if res["room"]: 
@@ -185,11 +185,17 @@ with main_col:
             name="You are here", showlegend=False
         ))
 
-    # Nodes
+    # Nodes with Permanent Labels
     fig.add_trace(go.Scatter(
-        x=df_rooms['x'], y=df_rooms['y'], mode='markers',
-        marker=dict(size=15, color='#1e293b', line=dict(color='#38bdf8', width=1.5)),
-        text=df_rooms['name'], hovertext=df_rooms['name'], hoverinfo='text', showlegend=False
+        x=df_rooms['x'], y=df_rooms['y'], 
+        mode='markers+text',
+        marker=dict(size=14, color='#1e293b', line=dict(color='#38bdf8', width=1.5)),
+        text=df_rooms['name'],
+        textposition="bottom center",
+        textfont=dict(family="Outfit", size=10, color="rgba(255,255,255,0.8)"),
+        hovertext=df_rooms['name'], 
+        hoverinfo='text', 
+        showlegend=False
     ))
 
     fig.update_layout(
@@ -197,7 +203,7 @@ with main_col:
         xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         margin=dict(l=0, r=0, t=10, b=0),
-        height=680, # Optimized height
+        height=680,
         dragmode='pan'
     )
     

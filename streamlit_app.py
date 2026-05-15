@@ -135,6 +135,10 @@ with st.sidebar:
     st.caption("NEXT-GEN CAMPUS ASSISTANT")
     
     st.divider()
+    # AI Status Indicator
+    ai_status = "🟢 ONLINE" if st.session_state.agent.client else "🔴 OFFLINE (FALLBACK)"
+    st.caption(f"SYSTEM STATUS: {ai_status}")
+    
     st.markdown("<span style='color:white; font-weight:600;'>📍 Live Status</span>", unsafe_allow_html=True)
     st.markdown(f"<h2 style='color:#38bdf8; margin:0;'>{st.session_state.current_loc}</h2>", unsafe_allow_html=True)
     if st.button("SYNC LOCATION", use_container_width=True):

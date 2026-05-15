@@ -30,88 +30,115 @@ st.markdown("""
 <style>
     /* Base Reset */
     .stApp {
-        background: #020617;
+        background: radial-gradient(circle at 0% 0%, #0f172a 0%, #020617 100%);
         color: #f8fafc;
         font-family: 'Outfit', sans-serif;
     }
 
-    /* Fixed Layout Fix */
-    [data-testid="stVerticalBlock"] > div:has(div.fixed-dash) {
-        overflow: hidden;
+    /* Pulse Animation */
+    @keyframes pulse {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(56, 189, 248, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+    }
+
+    .pulse-badge {
+        background: #38bdf8;
+        border-radius: 50%;
+        display: inline-block;
+        height: 10px;
+        width: 10px;
+        margin-right: 8px;
+        animation: pulse 2s infinite;
     }
 
     /* High Contrast Text */
-    h1, h2, h3, b, strong, p, span, li {
+    h1, h2, h3, b, strong {
         color: #ffffff !important;
-        text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        letter-spacing: -0.5px;
     }
     
     .stMarkdown p, .stCaption {
-        color: #cbd5e1 !important;
-        font-weight: 400;
+        color: #94a3b8 !important;
     }
 
-    /* Sidebar Glassmorphism */
+    /* Sidebar Enhancement */
     section[data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0f172a 0%, #020617 100%) !important;
-        border-right: 1px solid rgba(255,255,255,0.1);
+        background: rgba(15, 23, 42, 0.7) !important;
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(56, 189, 248, 0.2);
     }
     
     section[data-testid="stSidebar"] .stMarkdown h1 {
-        background: linear-gradient(90deg, #38bdf8, #818cf8);
+        background: linear-gradient(90deg, #38bdf8, #818cf8, #38bdf8);
+        background-size: 200% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-weight: 700;
-        letter-spacing: -1px;
+        font-weight: 800;
+        animation: shine 3s linear infinite;
     }
 
-    /* Dash Cards */
+    @keyframes shine {
+        to { background-position: 200% center; }
+    }
+
+    /* Premium Dash Cards */
     .dash-card {
         background: rgba(30, 41, 59, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 24px;
-        padding: 20px;
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 28px;
+        padding: 24px;
         height: 100%;
-        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+        transition: all 0.3s ease;
+        box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
     }
-
-    /* Custom Scrollbars */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.3); border-radius: 10px; }
+    
+    .dash-card:hover {
+        border-color: rgba(56, 189, 248, 0.4);
+        transform: translateY(-5px);
+        box-shadow: 0 0 30px rgba(56, 189, 248, 0.1);
+    }
 
     /* Buttons */
     .stButton>button {
-        background: #38bdf8 !important;
-        color: #020617 !important;
-        border-radius: 14px !important;
+        background: linear-gradient(135deg, #38bdf8 0%, #1d4ed8 100%) !important;
+        color: white !important;
+        border-radius: 16px !important;
         font-weight: 700 !important;
         border: none !important;
-        padding: 14px !important;
-        transition: all 0.2s ease;
+        padding: 16px !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
     .stButton>button:hover {
-        transform: scale(1.02);
-        box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(56, 189, 248, 0.5);
     }
 
     /* Chat Styling */
     [data-testid="stChatMessage"] {
-        background: rgba(15, 23, 42, 0.6) !important;
+        background: rgba(30, 41, 59, 0.3) !important;
         border: 1px solid rgba(255,255,255,0.05) !important;
-        border-radius: 20px !important;
+        border-radius: 24px !important;
+        margin-bottom: 15px !important;
     }
 
     /* Dropdown / Selectbox Menu */
     div[data-baseweb="popover"] {
-        background-color: #000000 !important;
+        background-color: #020617 !important;
+        border: 1px solid rgba(56, 189, 248, 0.3) !important;
+        border-radius: 16px !important;
     }
     div[data-baseweb="popover"] li {
-        background-color: #000000 !important;
-        color: #ffffff !important;
+        background-color: transparent !important;
+        color: #f8fafc !important;
+        margin: 4px 8px;
+        border-radius: 10px;
     }
     div[data-baseweb="popover"] li:hover {
-        background-color: #1e293b !important;
+        background-color: rgba(56, 189, 248, 0.2) !important;
     }
 
     header {visibility: hidden;}
@@ -135,7 +162,7 @@ with st.sidebar:
     st.caption("NEXT-GEN CAMPUS ASSISTANT")
     
     st.divider()
-    st.markdown("<span style='color:white; font-weight:600;'>📍 Live Status</span>", unsafe_allow_html=True)
+    st.markdown("### <div class='pulse-badge'></div> Live Status", unsafe_allow_html=True)
     st.markdown(f"<h2 style='color:#38bdf8; margin:0;'>{st.session_state.current_loc}</h2>", unsafe_allow_html=True)
     if st.button("SYNC LOCATION", use_container_width=True):
         res = st.session_state.localiser.locate()

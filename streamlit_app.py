@@ -102,6 +102,18 @@ st.markdown("""
         border-radius: 20px !important;
     }
 
+    /* Dropdown / Selectbox Menu */
+    div[data-baseweb="popover"] {
+        background-color: #000000 !important;
+    }
+    div[data-baseweb="popover"] li {
+        background-color: #000000 !important;
+        color: #ffffff !important;
+    }
+    div[data-baseweb="popover"] li:hover {
+        background-color: #1e293b !important;
+    }
+
     header {visibility: hidden;}
     footer {visibility: hidden;}
 </style>

@@ -31,7 +31,7 @@ class CampusNavApp(ctk.CTk):
         self.sync_mgr = NetworkSyncManager()
 
         # --- Window Configuration ---
-        self.title("Ingellenet | Intelligent Offline Campus Navigation")
+        self.title("Intellegent | Intelligent Offline Campus Navigation")
         self.geometry("1100x700")
         self.configure(fg_color=COLORS["bg_dark"])
         
@@ -53,7 +53,7 @@ class CampusNavApp(ctk.CTk):
         self.sidebar.grid_rowconfigure(4, weight=1)
 
         # Logo / Title
-        self.logo_label = ctk.CTkLabel(self.sidebar, text="🔵 INGELLENET", font=FONT_TITLE, text_color=COLORS["primary"])
+        self.logo_label = ctk.CTkLabel(self.sidebar, text="🔵 Intellegent", font=FONT_TITLE, text_color=COLORS["primary"])
         self.logo_label.grid(row=0, column=0, padx=20, pady=(30, 10))
         
         self.sub_label = ctk.CTkLabel(self.sidebar, text="Campus Intelligence System", font=FONT_MAIN, text_color=COLORS["text_dim"])

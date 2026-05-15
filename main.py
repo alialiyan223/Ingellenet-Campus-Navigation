@@ -1,5 +1,5 @@
 """
-Ingellenet Offline Campus Navigation System
+Intellegent Offline Campus Navigation System
 ──────────────────────────────────────────────────────────────────────────────
 Entry point for the application.
 """
@@ -26,7 +26,7 @@ def setup_logging():
 def main():
     setup_logging()
     logger = logging.getLogger("Main")
-    logger.info("Starting Ingellenet Offline Campus Navigation System...")
+    logger.info("Starting Intellegent Offline Campus Navigation System...")
     
     try:
         app = CampusNavApp()

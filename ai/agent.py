@@ -97,7 +97,7 @@ class CampusAgent:
             }
         ]
 
-        system_prompt = f"""You are the Ingellenet Campus Assistant.
+        system_prompt = f"""You are the Intellegent Campus Assistant.
 Your goal is to help users navigate the campus.
 Current user location: {current_loc or 'Unknown'}.
 If the user wants to go somewhere, search for the room first, then get the path.

@@ -1,5 +1,5 @@
 /**
- * Ingellenet Web App - Frontend Logic
+ * Intellegent Web App - Frontend Logic
  * Handles: Campus Map Rendering (Canvas), AI Queries, Real-time Status Updates
  */
 

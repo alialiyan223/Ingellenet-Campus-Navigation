@@ -1,4 +1,4 @@
-# Ingellenet Offline Campus Navigation System
+# Intellegent Offline Campus Navigation System
 
 An intelligent campus navigation system with Wi-Fi positioning and Agentic AI.
 

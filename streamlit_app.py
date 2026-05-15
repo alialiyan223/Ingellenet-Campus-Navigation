@@ -17,7 +17,7 @@ from database.db_manager import initialize_database, get_all_rooms
 
 # Page Config
 st.set_page_config(
-    page_title="Ingellenet | AI Navigator",
+    page_title="Intellegent | AI Navigator",
     page_icon="💠",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -119,7 +119,7 @@ if "initialized" not in st.session_state:
 
 # --- Sidebar ---
 with st.sidebar:
-    st.title("INGELLENET")
+    st.title("Intellegent")
     st.caption("NEXT-GEN CAMPUS ASSISTANT")
     
     st.markdown('<div style="background:rgba(56,189,248,0.1); padding:15px; border-radius:15px; border:1px solid rgba(56,189,248,0.2); margin-bottom:20px;">', unsafe_allow_html=True)

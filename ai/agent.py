@@ -31,12 +31,19 @@ class CampusAgent:
                 print(f"Error initializing Cerebras: {e}")
 
     def _get_campus_context(self) -> str:
-        """Retrieve full campus context for RAG."""
+        """Retrieve full campus context for RAG, including connectivity."""
         try:
             rooms = get_all_rooms()
-            context = "CAMPUS DIRECTORY & NAVIGATION NODES:\n"
+            context = "CAMPUS DIRECTORY:\n"
             for r in rooms:
-                context += f"- NAME: {r['name']} | CODE: {r['code']} | BLDG: {r['building']} | FLOOR: {r['floor']} | TYPE: {r['room_type']} | DESC: {r['description']}\n"
+                context += f"- {r['name']} ({r['code']}): {r['building']}, Floor {r['floor']}, Type: {r['room_type']}. {r['description']}\n"
+            
+            # Add basic connectivity context
+            context += "\nCAMPUS CONNECTIVITY:\n"
+            edges = self.graph.G.edges()
+            for u, v in list(edges)[:30]: # Limit to avoid token overflow
+                context += f"- {u} connects to {v}\n"
+            
             return context
         except Exception as e:
             print(f"RAG Error: {e}")

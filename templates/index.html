@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingellenet | Intelligent Offline Campus Navigation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <aside>
+        <div class="logo">
+            <h1>🔵 INGELLENET</h1>
+            <p>Campus Intelligence System</p>
+        </div>
+
+        <div class="status-card">
+            <h3>Current Location</h3>
+            <div id="loc-name" class="value">Scanning...</div>
+            <div id="loc-code" class="sub-value">Detecting Wi-Fi RSSI...</div>
+        </div>
+
+        <div class="status-card">
+            <h3>LAN Connectivity</h3>
+            <div id="sync-status" class="value" style="color: var(--text-dim);">Checking LAN...</div>
+        </div>
+
+        <div style="margin-top: auto;">
+            <p style="color: var(--text-dim); font-size: 11px;">Offline Engine v1.0.4</p>
+        </div>
+    </aside>
+
+    <main>
+        <div class="top-bar">
+            <div class="search-container">
+                <input type="text" id="ai-query" placeholder="Ask AI: 'Where is the nearest washroom?' or 'Directions to CS Lab'...">
+            </div>
+            <button id="ask-btn" class="primary-btn">Ask Agent</button>
+        </div>
+
+        <div class="app-grid">
+            <div class="map-container">
+                <canvas id="map-canvas"></canvas>
+            </div>
+
+            <div class="navigator-panel">
+                <h2>NAVIGATOR</h2>
+                <div id="ai-message" style="margin-bottom: 20px; font-weight: 700; color: var(--secondary);"></div>
+                <ul id="directions-list">
+                    <li style="color: var(--text-dim);">Welcome to Ingellenet. Enter a query or interact with the map to start your journey.</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

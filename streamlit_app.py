@@ -207,7 +207,8 @@ with main_col:
         textfont=dict(family="Outfit", size=10, color="rgba(255,255,255,0.8)"),
         hovertext=df_rooms['name'], 
         hoverinfo='text', 
-        showlegend=False
+        showlegend=False,
+        customdata=df_rooms.index
     ))
 
     fig.update_layout(
@@ -216,10 +217,28 @@ with main_col:
         yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
         margin=dict(l=0, r=0, t=10, b=0),
         height=680,
-        dragmode='pan'
+        dragmode='pan',
+        clickmode='event+select'
     )
     
-    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+    # Handle Selection
+    selection = st.plotly_chart(
+        fig, 
+        use_container_width=True, 
+        config={'displayModeBar': False},
+        on_select="rerun",
+        key="map_selection"
+    )
+
+    if selection and "selection" in selection and selection["selection"]["points"]:
+        clicked_room = selection["selection"]["points"][0]["customdata"]
+        if clicked_room != st.session_state.current_loc:
+            path = st.session_state.graph.shortest_path(st.session_state.current_loc, clicked_room)
+            if path: 
+                st.session_state.path_data = path
+                st.toast(f"📍 Route to {clicked_room} calculated!", icon="🚀")
+            st.rerun()
+
     st.markdown('</div>', unsafe_allow_html=True)
 
 with side_col:

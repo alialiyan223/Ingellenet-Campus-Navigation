@@ -299,3 +299,9 @@ def get_navigation_history(limit: int = 20) -> list[dict]:
             "SELECT * FROM navigation_logs ORDER BY timestamp DESC LIMIT ?", (limit,)
         ).fetchall()
         return [dict(r) for r in rows]
+
+def clear_ai_cache():
+    """Clear all entries from the ai_cache table."""
+    with get_connection() as conn:
+        conn.execute("DELETE FROM ai_cache")
+        conn.commit()

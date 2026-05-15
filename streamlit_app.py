@@ -156,6 +156,16 @@ with st.sidebar:
         if path: st.session_state.path_data = path
         else: st.error("No Route Found")
 
+    st.divider()
+    with st.expander("🛠 ADVANCED SETTINGS"):
+        if st.button("CLEAR APP CACHE", use_container_width=True):
+            from database.db_manager import clear_ai_cache
+            clear_ai_cache()
+            st.session_state.clear()
+            st.toast("Cache Cleared!", icon="🗑️")
+            time.sleep(1)
+            st.rerun()
+
 # --- Dashboard Layout ---
 main_col, side_col = st.columns([5, 3], gap="medium")
 

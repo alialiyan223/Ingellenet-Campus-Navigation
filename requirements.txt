@@ -3,6 +3,7 @@ Pillow
 numpy
 requests
 anthropic
+cerebras-cloud-sdk
 python-dotenv
 streamlit
 pandas
